@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1= title
+  p  #{context.retries} try 
+  ul
+  each action in actions 
+    li
+      a(href="/?action="+action) #{action}
