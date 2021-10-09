@@ -38,19 +38,13 @@ const fetchMachine = (connection) => createMachine({
     },
     run: {
       on: {
+        DUCK: 'success',
         JUMP: {
           target: 'fall',
           actions: assign({
             falls: (context, event) => context.falls + 1
           })
-        },
-        DUCK: 'walk'
-      }
-    },
-    walk: {
-      on: {
-        TURN: 'success',
-        RUN: 'run'
+        }
       }
     },
     success: {

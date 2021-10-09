@@ -20,7 +20,7 @@ const fetchMachine = (connection) => createMachine({
   initial: 'login',
   context: {
     connection: connection,
-    falls: 0
+    retriesJump: 0
   },
   states: {
     login: {
@@ -38,27 +38,21 @@ const fetchMachine = (connection) => createMachine({
     },
     run: {
       on: {
-        JUMP: {
-          target: 'fall',
-          actions: assign({
-            falls: (context, event) => context.falls + 1
-          })
-        },
-        DUCK: 'walk'
-      }
-    },
-    walk: {
-      on: {
-        TURN: 'success',
-        RUN: 'run'
+        JUMP: 'success',
+        FALL: 'failure'
       }
     },
     success: {
       type: 'final'
     },
-    fall: {
+    failure: {
       on: {
-        GETUP: 'run'
+        UP: {
+          target: 'run',
+          actions: assign({
+            retriesJump: (context, event) => context.retriesJump + 1
+          })
+        }
       }
     }
   }
@@ -100,8 +94,8 @@ router.get('/', function(req, res, next) {
   data['context'] = req.session.machineService.state.context;
   console.log(data);
   if(data.context.connection.nb){
-    if (req.session.machineService.state.value !== 'login') {
-      data['message'] = `You're trying ${data.context.connection.nb} times`;
+    if (req.session.machineService.state.value === 'login') {
+      data['message'] = `This is your ${data.context.connection.nb} tries`;
     } else {
       data['message'] = `You already try ${data.context.connection.nb} times`;
     }

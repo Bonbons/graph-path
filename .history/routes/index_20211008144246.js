@@ -49,8 +49,8 @@ const fetchMachine = (connection) => createMachine({
     },
     walk: {
       on: {
-        TURN: 'success',
-        RUN: 'run'
+        RUN: 'run',
+        TURN: 'success'
       }
     },
     success: {

@@ -22,10 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: (process.env.SESSION_SECRET || 'changeit'),
-  cookie: { maxAge: 86400000 },
-  store: new MemoryStore({
-    checkPeriod: 86400000 // prune expired entries every 24h
-  }),
+  sessionStore: sessionMemoryStore,
   name: 'PATH_GRAPH',
   resave: true,
   saveUninitialized: true

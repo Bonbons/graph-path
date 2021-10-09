@@ -3,8 +3,7 @@ extends layout
 block content
   h1= title
   p  #{message} 
-  //- p  #{context.retries} try 
-  p  You falls #{context.falls} times 
+  p  #{context.retries} try 
   ul
   each action in actions 
     li

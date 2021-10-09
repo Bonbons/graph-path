@@ -20,45 +20,42 @@ const fetchMachine = (connection) => createMachine({
   initial: 'login',
   context: {
     connection: connection,
-    falls: 0
+    retriesJump: 0
   },
   states: {
     login: {
       on: {
         LOGIN: {
           target: 'run',
-          actions: (context, event) => {
-            console.log('************************************');
-            context.connection.add();
-            console.log('connection', context.connection.nb);
-            console.log('************************************');
-          }
+          // actions: assign({
+          //   connection: (context, event) => {
+          //     console.log('************************************');
+          //     connection.add();
+          //     console.log('connection', connection.nb);
+          //     console.log('************************************');
+          //     return connection;
+          //   }
+          // })
         }
       }
     },
     run: {
       on: {
-        JUMP: {
-          target: 'fall',
-          actions: assign({
-            falls: (context, event) => context.falls + 1
-          })
-        },
-        DUCK: 'walk'
-      }
-    },
-    walk: {
-      on: {
-        TURN: 'success',
-        RUN: 'run'
+        JUMP: 'success',
+        FALL: 'failure'
       }
     },
     success: {
       type: 'final'
     },
-    fall: {
+    failure: {
       on: {
-        GETUP: 'run'
+        UP: {
+          target: 'run',
+          actions: assign({
+            retriesJump: (context, event) => context.retriesJump + 1
+          })
+        }
       }
     }
   }
@@ -100,11 +97,7 @@ router.get('/', function(req, res, next) {
   data['context'] = req.session.machineService.state.context;
   console.log(data);
   if(data.context.connection.nb){
-    if (req.session.machineService.state.value !== 'login') {
-      data['message'] = `You're trying ${data.context.connection.nb} times`;
-    } else {
-      data['message'] = `You already try ${data.context.connection.nb} times`;
-    }
+    data['message'] = `You visited this page ${data.context.connection.nb} times`;
   } else {
     data['message'] = `Welcome to this page for the first time!`;
   }
