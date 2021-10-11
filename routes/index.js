@@ -3,65 +3,11 @@ const { has, isNil, isEmpty } = require('lodash');
 const { createMachine, interpret, assign } = require('xstate');
 var router = express.Router();
 var { newConnection } = require('./connection');
-
-// Available variables:
-// - Machine
-// - interpret
-// - assign
-// - send
-// - sendParent
-// - spawn
-// - raise
-// - actions
-// - XState (all XState exports)
+var { initialMachine, createMachineWithContext } = require('./machine');
   
-const fetchMachine = (connection) => createMachine({
-  id: 'login',
-  initial: 'login',
-  context: {
-    connection: connection,
-    falls: 0
-  },
-  states: {
-    login: {
-      on: {
-        LOGIN: {
-          target: 'run',
-          actions: (context, event) => {
-            console.log('************************************');
-            context.connection.add();
-            console.log('connection', context.connection.nb);
-            console.log('************************************');
-          }
-        }
-      }
-    },
-    run: {
-      on: {
-        JUMP: {
-          target: 'fall',
-          actions: assign({
-            falls: (context, event) => context.falls + 1
-          })
-        },
-        DUCK: 'walk'
-      }
-    },
-    walk: {
-      on: {
-        TURN: 'success',
-        RUN: 'run'
-      }
-    },
-    success: {
-      type: 'final'
-    },
-    fall: {
-      on: {
-        GETUP: 'run'
-      }
-    }
-  }
+const fetchMachine = (connection) => createMachineWithContext(initialMachine, {
+  connection: connection,
+  falls: 0
 });
 
 var machineServices = {};
