@@ -176,6 +176,11 @@ commander@2.8.x:
   dependencies:
     graceful-readlink ">= 1.0.0"
 
+connection-string@^4.3.4:
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/connection-string/-/connection-string-4.3.4.tgz#a0c39cbf39acb7d89c41c2f361d64dbaea513dad"
+  integrity sha512-WsdoDTkPTFS9/kUKtZmtthG0/jSxqg4YW7tlO6AB24tvxK5UTwqspNxJpK4L+fdIV9fryexZYLOxG9KxVfDLHg==
+
 constantinople@^3.0.1:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/constantinople/-/constantinople-3.1.2.tgz#d45ed724f57d3d10500017a7d3a889c1381ae647"
