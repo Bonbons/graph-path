@@ -1,33 +1,24 @@
 var express = require('express');
+const { findAll, findById } = require('./db/db-helper');
 var router = express.Router();
-var pgp = require("pg-promise")(/*options*/);
-var {ConnectionString} = require('connection-string');
 
-const cnObj = new ConnectionString(process.env.DATABASE_URL);
-
-const cn = {
-  host: cnObj.hostname,
-  port: cnObj.port,
-  database: cnObj.path?.[0],
-  user: cnObj.user,
-  password: cnObj.password,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-};
-
-const db = pgp(cn);
-
-router.get('/', async function(req, res, next) {
-    db.one("SELECT $1 AS value", 123)
-    .then(function (data) {
-        console.log("DATA:", data.value);
-        res.json(JSON.parse([{'id':1, 'name':'TEST'}, {'id':2, 'name':data.value}]));
-    })
-    .catch(function (error) {
-        console.log("ERROR:", error);
-        res.status(500).send(`Something broke! ${JSON.stringify(cnObj.hostname)} ! ${JSON.stringify(error)}`);
-    });
+router.post('/', async function(req, res) {
+    res.status(500).send(`Work in progress!`);
 });
 
+router.get('/', async function(req, res, next) {
+    findAll('utilisateur', res);
+});
+
+router.param('id', async function(request, response, next, id) {
+    findById('utilisateur', id, request, next, response);
+});
+
+router.get('/:id',
+    function(request, response, next) {
+        return response.json(request['utilisateur']);
+    }
+);
+
 module.exports = router;
+
