@@ -22,11 +22,11 @@ router.get('/', async function(req, res, next) {
     db.one("SELECT $1 AS value", 123)
     .then(function (data) {
         console.log("DATA:", data.value);
-        res.json(JSON.parse([{'id':1, 'name':'TEST'}, {'id':2, 'name':'DOE'}]));
+        res.json(JSON.parse([{'id':1, 'name':'TEST'}, {'id':2, 'name':data.value}]));
     })
     .catch(function (error) {
         console.log("ERROR:", error);
-        res.status(500).send(`Something broke!<\br> ${JSON.stringify(error)}`);
+        res.status(500).send(`Something broke! ${JSON.stringify(cnObj.hostname)} ! ${JSON.stringify(error)}`);
     });
 });
 
