@@ -16,18 +16,6 @@ const cn = {
 
 const db = pgp(cn);
 
-function findAll(table, res) {
-    db.any(`SELECT * FROM ${table}`)
-        .then(function (data) {
-            console.log("DATA:", data.value);
-            res.json(data);
-        })
-        .catch(function (error) {
-            console.log("ERROR:", error);
-            res.status(500).send(`Something broke!`);
-        });
-}
-
 function findById(table, id, request, next, response) {
     db.one(`SELECT * FROM ${table} where id=${id}`)
     .then(
@@ -46,9 +34,16 @@ function findById(table, id, request, next, response) {
 }
 
 function findAll(table, res) {
+    if (res === undefined) {
+        return db.any(`SELECT * FROM ${table}`);
+    }
     db.any(`SELECT * FROM ${table}`)
         .then(function (data) {
-            console.log("DATA:", data.value);
+            console.log("DATA:", data);
+            data.forEach(d => {
+                delete d.password;
+                return d;
+            });
             res.json(data);
         })
         .catch(function (error) {

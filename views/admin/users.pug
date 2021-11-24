@@ -2,3 +2,19 @@ extends layout
 
 block content-admin
   h2= mesageAcceuil
+  div(class="buttons-toolbar")
+  table(id='users',  
+    class='table table-stripe', 
+    data-toggle="table",
+    data-height="460",
+    data-search="true",
+    data-buttons-toolbar=".buttons-toolbar",
+    data-sort-name="username",
+    data-sort-order="asc",
+    data-pagination="true",
+    data-url="/api/users")
+    thead
+      tr
+        th(scope='col', data-field='username', data-sortable="true") Nom d'utilisateur
+        th(scope='col', data-field='email', data-sortable="true") E-mail
+    

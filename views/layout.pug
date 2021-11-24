@@ -3,5 +3,22 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+    script() var test=true
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css", integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", crossorigin="anonymous")
+    link(href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css", rel="stylesheet")
+    script(src="/javascripts/jquery-3.6.0.min.js")
+    script(src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js")
+    script(src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/jsonata/jsonata.min.js")
+    script(src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js")
+    link(rel="apple-touch-icon", sizes="180x180", href="/apple-touch-icon.png")
+    link(rel="icon", type="image/png", sizes="32x32", href="/favicon-32x32.png")
+    link(rel="icon", type="image/png", sizes="16x16", href="/favicon-16x16.png")
+    link(rel="manifest", href="/site.webmanifest")
+    link(rel="mask-icon", href="/safari-pinned-tab.svg", color="#5bbad5")
+    meta(name="msapplication-TileColor", content="#da532c")
+    meta(name="theme-color", content="#ffffff")
+  body(class="m-0 p-0")
+    include navigation.pug
+    div(class="container-fluid")
+      block content
